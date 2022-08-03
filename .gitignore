@@ -1,3 +1,8 @@
+temp.txt
+/db-data
+/file-server-data
+/scripts
+
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
