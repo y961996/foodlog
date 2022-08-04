@@ -1,5 +1,6 @@
 package com.yunus.foodlog.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.yunus.foodlog.converters.ListToStringConverter;
 import lombok.Data;
 import org.hibernate.annotations.OnDelete;
@@ -21,6 +22,7 @@ public class Post {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private User user;
 
     @Column(length = 60)
@@ -30,6 +32,7 @@ public class Post {
     private String text;
 
     // TODO: Max 20 Images
+    // https://www.baeldung.com/java-hibernate-map-postgresql-array => another way of mapping.
     @Column(name = "image_paths", length = 9999)
     @Convert(converter = ListToStringConverter.class)
     private List<String> imagePaths;
