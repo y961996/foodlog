@@ -24,8 +24,9 @@ public class PostService {
         List<Post> list;
         if(userId.isPresent()) {
             list = postRepository.findByUserId(userId.get());
+        } else {
+            list = postRepository.findAll();
         }
-        list = postRepository.findAll();
         return list.stream().map(PostResponse::new).collect(Collectors.toList());
     }
 
