@@ -5,8 +5,9 @@ import com.yunus.foodlog.entities.User;
 import com.yunus.foodlog.repositories.PostRepository;
 import com.yunus.foodlog.requests.PostCreateRequest;
 import com.yunus.foodlog.requests.PostUpdateRequest;
+import com.yunus.foodlog.responses.LikeResponse;
 import com.yunus.foodlog.responses.PostResponse;
-import lombok.AllArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,11 +15,17 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
 public class PostService {
 
     private final PostRepository postRepository;
     private final UserService userService;
+    private final LikeService likeService;
+
+    public PostService(PostRepository postRepository, UserService userService, @Lazy LikeService likeService) {
+        this.postRepository = postRepository;
+        this.userService = userService;
+        this.likeService = likeService;
+    }
 
     public List<PostResponse> getAllPosts(Optional<Long> userId) {
         List<Post> list;
@@ -27,7 +34,10 @@ public class PostService {
         } else {
             list = postRepository.findAll();
         }
-        return list.stream().map(PostResponse::new).collect(Collectors.toList());
+        return list.stream().map(p -> {
+            List<LikeResponse> likes = likeService.getAllLikes(Optional.empty(), Optional.of(p.getId()));
+            return new PostResponse(p, likes);
+        }).collect(Collectors.toList());
     }
 
     public Post getOnePostById(Long postId) {

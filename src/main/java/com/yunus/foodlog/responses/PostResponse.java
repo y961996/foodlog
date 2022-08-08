@@ -15,8 +15,9 @@ public class PostResponse {
     String text;
     List<String> imagePaths;
     String shortVideoPath;
+    List<LikeResponse> postLikes;
 
-    public PostResponse(Post entity) {
+    public PostResponse(Post entity, List<LikeResponse> likes) {
         this.id = entity.getId();
         this.userId = entity.getUser().getId();
         this.userName = entity.getUser().getUserName();
@@ -24,5 +25,6 @@ public class PostResponse {
         this.text = entity.getText();
         this.imagePaths = entity.getImagePaths();
         this.shortVideoPath = entity.getShortVideoPath();
+        this.postLikes = likes;
     }
 }

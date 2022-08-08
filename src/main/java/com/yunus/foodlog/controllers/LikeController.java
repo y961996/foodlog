@@ -2,6 +2,7 @@ package com.yunus.foodlog.controllers;
 
 import com.yunus.foodlog.entities.Like;
 import com.yunus.foodlog.requests.LikeCreateRequest;
+import com.yunus.foodlog.responses.LikeResponse;
 import com.yunus.foodlog.services.LikeService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class LikeController {
     private final LikeService likeService;
 
     @GetMapping
-    public List<Like> getAllLikes(@RequestParam Optional<Long> userId, @RequestParam Optional<Long> postId) {
+    public List<LikeResponse> getAllLikes(@RequestParam Optional<Long> userId, @RequestParam Optional<Long> postId) {
         return likeService.getAllLikes(userId, postId);
     }
 
