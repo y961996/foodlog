@@ -3,6 +3,7 @@ package com.yunus.foodlog.controllers;
 import com.yunus.foodlog.entities.Post;
 import com.yunus.foodlog.requests.PostCreateRequest;
 import com.yunus.foodlog.requests.PostUpdateRequest;
+import com.yunus.foodlog.responses.PostResponse;
 import com.yunus.foodlog.services.PostService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping
-    public List<Post> getAllPosts(@RequestParam Optional<Long> userId) {
+    public List<PostResponse> getAllPosts(@RequestParam Optional<Long> userId) {
         return postService.getAllPosts(userId);
     }
 

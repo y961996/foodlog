@@ -5,11 +5,13 @@ import com.yunus.foodlog.entities.User;
 import com.yunus.foodlog.repositories.PostRepository;
 import com.yunus.foodlog.requests.PostCreateRequest;
 import com.yunus.foodlog.requests.PostUpdateRequest;
+import com.yunus.foodlog.responses.PostResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -18,11 +20,13 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserService userService;
 
-    public List<Post> getAllPosts(Optional<Long> userId) {
+    public List<PostResponse> getAllPosts(Optional<Long> userId) {
+        List<Post> list;
         if(userId.isPresent()) {
-            return postRepository.findByUserId(userId.get());
+            list = postRepository.findByUserId(userId.get());
         }
-        return postRepository.findAll();
+        list = postRepository.findAll();
+        return list.stream().map(PostResponse::new).collect(Collectors.toList());
     }
 
     public Post getOnePostById(Long postId) {
