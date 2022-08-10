@@ -2,6 +2,7 @@ package com.yunus.foodlog.services;
 
 import com.yunus.foodlog.entities.User;
 import com.yunus.foodlog.repositories.UserRepository;
+import com.yunus.foodlog.requests.UserRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -41,5 +42,9 @@ public class UserService {
 
     public void deleteOneUserById(Long userId) {
         userRepository.deleteById(userId);
+    }
+
+    public User getOneUserByUserName(String userName) {
+        return userRepository.findByUserName(userName);
     }
 }
