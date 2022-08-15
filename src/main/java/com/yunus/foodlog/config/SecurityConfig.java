@@ -5,6 +5,7 @@ import com.yunus.foodlog.security.JwtAuthenticationFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -44,10 +45,10 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                //.antMatchers(HttpMethod.GET, "/posts")
-                //.permitAll()
-                //.antMatchers(HttpMethod.GET, "/comments")
-                //.permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v1/posts")
+                .permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v1/comments")
+                .permitAll()
                 .antMatchers("/api/v1/auth/**")
                 .permitAll()
                 .anyRequest().authenticated();
@@ -62,7 +63,7 @@ public class SecurityConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("*");
+        config.addAllowedOriginPattern("*");
         config.addAllowedHeader("*");
         config.addAllowedMethod("OPTIONS");
         config.addAllowedMethod("HEAD");
