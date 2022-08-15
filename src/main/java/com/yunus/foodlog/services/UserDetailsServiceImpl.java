@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @AllArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -22,7 +24,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     public UserDetails loadUserById(Long id) {
-        User user = userRepository.findById(id).get();
-        return JwtUserDetails.create(user);
+        Optional<User> user = userRepository.findById(id);
+        //TODO: UserNotFound Exception
+        return user.map(JwtUserDetails::create).orElse(null);
     }
 }

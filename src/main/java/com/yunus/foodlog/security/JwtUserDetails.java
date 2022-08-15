@@ -19,37 +19,45 @@ public class JwtUserDetails implements UserDetails {
     private String username;
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
+    private final boolean isAccountNonExpired;
+    private final boolean isAccountNonLocked;;
+    private final boolean isCredentialsNonExpired;;
+    private final boolean isEnabled;
 
-    private JwtUserDetails(Long id, String username, String password, Collection<? extends GrantedAuthority> authorities) {
+    private JwtUserDetails(Long id, String username, String password, Collection<? extends GrantedAuthority> authorities, boolean isAccountNonExpired, boolean isAccountNonLocked, boolean isCredentialsNonExpired, boolean isEnabled) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.authorities = authorities;
+        this.isAccountNonExpired = isAccountNonExpired;
+        this.isAccountNonLocked = isAccountNonLocked;
+        this.isCredentialsNonExpired = isCredentialsNonExpired;
+        this.isEnabled = isEnabled;
     }
 
     public static JwtUserDetails create(User user) {
         List<GrantedAuthority> authoritiesList = new ArrayList<>();
         authoritiesList.add(new SimpleGrantedAuthority("user"));
-        return new JwtUserDetails(user.getId(), user.getUserName(), user.getPassword(), authoritiesList);
+        return new JwtUserDetails(user.getId(), user.getUserName(), user.getPassword(), authoritiesList, true, true, true, true);
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return isAccountNonExpired;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return isAccountNonLocked;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return isCredentialsNonExpired;
     }
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return isEnabled;
     }
 }
