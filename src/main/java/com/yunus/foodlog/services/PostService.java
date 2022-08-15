@@ -63,10 +63,18 @@ public class PostService {
         Optional<Post> post = postRepository.findById(postId);
         if(post.isPresent()) {
             Post toUpdate = post.get();
-            toUpdate.setText(postUpdateRequest.getText());
-            toUpdate.setTitle(postUpdateRequest.getTitle());
-            toUpdate.setImagePaths(postUpdateRequest.getImagePaths());
-            toUpdate.setShortVideoPath(postUpdateRequest.getShortVideoPath());
+            if(postUpdateRequest.getText() != null)
+                if(!postUpdateRequest.getText().isBlank() || !postUpdateRequest.getText().isEmpty())
+                    toUpdate.setText(postUpdateRequest.getText());
+            if(postUpdateRequest.getTitle() != null)
+                if(!postUpdateRequest.getTitle().isBlank() || !postUpdateRequest.getTitle().isEmpty())
+                    toUpdate.setTitle(postUpdateRequest.getTitle());
+            if(postUpdateRequest.getImagePaths() != null)
+                if(postUpdateRequest.getImagePaths() != null && !postUpdateRequest.getImagePaths().isEmpty())
+                    toUpdate.setImagePaths(postUpdateRequest.getImagePaths());
+            if(postUpdateRequest.getShortVideoPath() != null)
+                if(!postUpdateRequest.getShortVideoPath().isBlank() || !postUpdateRequest.getShortVideoPath().isEmpty())
+                    toUpdate.setShortVideoPath(postUpdateRequest.getShortVideoPath());
             postRepository.save(toUpdate);
             return toUpdate;
         }
