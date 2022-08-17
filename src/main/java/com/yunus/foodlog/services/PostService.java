@@ -55,6 +55,8 @@ public class PostService {
         toSave.setText(newPostRequest.getText());
         toSave.setTitle(newPostRequest.getTitle());
         toSave.setUser(user);
+        toSave.setImagePaths(newPostRequest.getImagePaths());
+        toSave.setShortVideoPath(newPostRequest.getShortVideoPath());
 
         return postRepository.save(toSave);
     }
