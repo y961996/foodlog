@@ -2,6 +2,7 @@ import React from "react";
 import Post from "../Post/Post";
 import {useEffect, useState} from "react";
 import "./Home.scss";
+import {Box, Container} from "@mui/material";
 
 function Home() {
     const [error, setError] = useState(null);
@@ -30,16 +31,24 @@ function Home() {
         return <div>Loading...</div>
     } else {
         return(
+            //TODO: This container doesn't work properly. (It won't expand with the posts and
+            //      posts don't have margins between them.
             <div className="container">
-                Home
-                {postList.map(post => (
-                    <Post
-                        title={post.title}
-                        text={post.text}
-                        imagePaths={post.imagePaths}
-                        shortVideoPath={post.shortVideoPath}
-                    />
-                ))}
+                <Container fixed>
+                    <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center", alignItems: "center",
+                               bgcolor: '#cfe8fc', height: '100vh' }}>
+                        {postList.map(post => (
+                            <Post
+                                userId={post.userId}
+                                userName={post.userName}
+                                title={post.title}
+                                text={post.text}
+                                imagePaths={post.imagePaths}
+                                shortVideoPath={post.shortVideoPath}
+                            />
+                        ))}
+                    </Box>
+                </Container>
             </div>
         );
     }
