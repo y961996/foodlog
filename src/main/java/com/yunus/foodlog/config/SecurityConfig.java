@@ -45,6 +45,8 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
+                // TODO: This needs to be deleted after adding authorization to frontend!!!
+                .antMatchers("/**", "/static/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/posts")
                 .permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/comments")
