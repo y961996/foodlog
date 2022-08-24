@@ -9,9 +9,15 @@ function Home() {
     const [isLoaded, setIsLoaded] = useState(false);
     const [postList, setPostList] = useState([]);
 
+    // TODO: This is an example of how to get the response when you got an error
+    //       Maybe put this in a method and use that to make requests.
+    let responseClone;
     useEffect(() => {
-        fetch("/posts")
-            .then(res => res.json())
+        fetch("http://localhost:8080/api/v1/posts")
+            .then(res => {
+                responseClone = res.clone();
+                return res.json();
+            })
             .then(
                 (result) => {
                     setIsLoaded(true);
@@ -20,7 +26,11 @@ function Home() {
                 (error) => {
                     setIsLoaded(true);
                     setError(error);
-                    console.log(error);
+                    console.log(error, responseClone);
+                    responseClone.text()
+                        .then(bodyText => {
+                            console.log("Received: " + bodyText);
+                        })
                 }
             )
     }, []);
