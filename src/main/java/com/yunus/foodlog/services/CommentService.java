@@ -7,6 +7,7 @@ import com.yunus.foodlog.repositories.CommentRepository;
 import com.yunus.foodlog.requests.CommentCreateRequest;
 import com.yunus.foodlog.requests.CommentUpdateRequest;
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
+@Log4j2
 public class CommentService {
 
     private final CommentRepository commentRepository;
@@ -21,6 +23,7 @@ public class CommentService {
     private final PostService postService;
 
     public List<Comment> getAllComments(Optional<Long> userId, Optional<Long> postId) {
+        log.info("CommentService -> getAllComments() called with userId: " + userId + ", postId: " + postId);
         if(userId.isPresent() && postId.isPresent()) {
             return commentRepository.findByUserIdAndPostId(userId.get(), postId.get());
         } else if(userId.isPresent()) {
@@ -33,10 +36,12 @@ public class CommentService {
     }
 
     public Comment getOneCommentById(Long commentId) {
+        log.info("CommentService -> getOneCommentById() called with commentId: " + commentId);
         return commentRepository.findById(commentId).orElse(null);
     }
 
     public Comment createOneComment(CommentCreateRequest commentCreateRequest) {
+        log.info("CommentService -> createOneComment() called with commentCreateRequest: " + commentCreateRequest.toString());
         User user = userService.getOneUserById(commentCreateRequest.getUserId());
         Post post = postService.getOnePostById(commentCreateRequest.getPostId());
         if(user != null && post != null) {
@@ -52,6 +57,7 @@ public class CommentService {
     }
 
     public Comment updateOneCommentById(Long commentId, CommentUpdateRequest commentUpdateRequest) {
+        log.info("CommentService -> updateOneCommentById() called with commentId: " + commentId + ", commentUpdateRequest: " + commentUpdateRequest.toString());
         Optional<Comment> comment = commentRepository.findById(commentId);
         if (comment.isPresent()) {
             Comment commentToUpdate = comment.get();
@@ -63,6 +69,7 @@ public class CommentService {
     }
 
     public void deleteOneCommentById(Long commentId) {
+        log.info("CommentService -> deleteOneCommentById() called with commentId: " + commentId);
         commentRepository.deleteById(commentId);
     }
 }

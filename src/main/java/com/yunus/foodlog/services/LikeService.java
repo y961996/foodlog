@@ -7,6 +7,7 @@ import com.yunus.foodlog.repositories.LikeRepository;
 import com.yunus.foodlog.requests.LikeCreateRequest;
 import com.yunus.foodlog.responses.LikeResponse;
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
+@Log4j2
 public class LikeService {
 
     private final LikeRepository likeRepository;
@@ -22,6 +24,7 @@ public class LikeService {
     private final PostService postService;
 
     public List<LikeResponse> getAllLikes(Optional<Long> userId, Optional<Long> postId) {
+        log.info("LikeService -> getAllLikes() called with userId: " + userId + ", postId: " + postId);
         List<Like> list;
         if(userId.isPresent() && postId.isPresent()) {
             list = likeRepository.findByUserIdAndPostId(userId.get(), postId.get());
@@ -36,10 +39,12 @@ public class LikeService {
     }
 
     public Like getOneLikeById(Long likeId) {
+        log.info("LikeService -> getOneLikeById() called with likeId: " + likeId);
         return likeRepository.findById(likeId).orElse(null);
     }
 
     public Like createOneLike(LikeCreateRequest likeCreateRequest) {
+        log.info("LikeService -> createOneLike() called with likeCreateRequest: " + likeCreateRequest.toString());
         User user = userService.getOneUserById(likeCreateRequest.getUserId());
         Post post = postService.getOnePostById(likeCreateRequest.getPostId());
         if(user != null && post != null) {
@@ -54,6 +59,7 @@ public class LikeService {
     }
 
     public void deleteOneLikeById(Long likeId) {
+        log.info("LikeService -> deleteOneLikeById() called with likeId: " + likeId);
         likeRepository.deleteById(likeId);
     }
 }
