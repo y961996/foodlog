@@ -22,31 +22,31 @@ public class PostController {
 
     @GetMapping
     public List<PostResponse> getAllPosts(@RequestParam Optional<Long> userId) {
-        log.info("PostController -> getAllPosts() called with userId: " + userId);
+        log.trace("PostController -> getAllPosts() called with userId: " + userId);
         return postService.getAllPosts(userId);
     }
 
     @GetMapping(path = "{postId}")
     public Post getPostById(@PathVariable("postId") Long postId) {
-        log.info("PostController -> getPostById() called with postId: " + postId);
+        log.trace("PostController -> getPostById() called with postId: " + postId);
         return postService.getOnePostById(postId);
     }
 
     @PostMapping
     public Post createPost(@RequestBody PostCreateRequest newPostRequest) {
-        log.info("PostController -> createPost() called with newPostRequest: " + newPostRequest.toString());
+        log.trace("PostController -> createPost() called with newPostRequest: " + newPostRequest.toString());
         return postService.createOnePost(newPostRequest);
     }
 
     @PutMapping(path = "{postId}")
     public Post updatePostById(@PathVariable("postId") Long postId, @RequestBody PostUpdateRequest postUpdateRequest) {
-        log.info("PostController -> updatePostById() called with postId: " + postId + ", postUpdateRequest: " + postUpdateRequest.toString());
+        log.trace("PostController -> updatePostById() called with postId: " + postId + ", postUpdateRequest: " + postUpdateRequest.toString());
         return postService.updateOnePostById(postId, postUpdateRequest);
     }
 
     @DeleteMapping(path = "{postId}")
     public void deletePostById(@PathVariable("postId") Long postId) {
-        log.info("PostController -> deletePostById() called with postId: " + postId);
+        log.trace("PostController -> deletePostById() called with postId: " + postId);
         postService.deleteOnePostById(postId);
     }
 }

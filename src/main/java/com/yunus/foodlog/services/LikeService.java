@@ -24,7 +24,7 @@ public class LikeService {
     private final PostService postService;
 
     public List<LikeResponse> getAllLikes(Optional<Long> userId, Optional<Long> postId) {
-        log.info("LikeService -> getAllLikes() called with userId: " + userId + ", postId: " + postId);
+        log.trace("LikeService -> getAllLikes() called with userId: " + userId + ", postId: " + postId);
         List<Like> list;
         if(userId.isPresent() && postId.isPresent()) {
             list = likeRepository.findByUserIdAndPostId(userId.get(), postId.get());
@@ -39,12 +39,12 @@ public class LikeService {
     }
 
     public Like getOneLikeById(Long likeId) {
-        log.info("LikeService -> getOneLikeById() called with likeId: " + likeId);
+        log.trace("LikeService -> getOneLikeById() called with likeId: " + likeId);
         return likeRepository.findById(likeId).orElse(null);
     }
 
     public Like createOneLike(LikeCreateRequest likeCreateRequest) {
-        log.info("LikeService -> createOneLike() called with likeCreateRequest: " + likeCreateRequest.toString());
+        log.trace("LikeService -> createOneLike() called with likeCreateRequest: " + likeCreateRequest.toString());
         User user = userService.getOneUserById(likeCreateRequest.getUserId());
         Post post = postService.getOnePostById(likeCreateRequest.getPostId());
         if(user != null && post != null) {
@@ -59,7 +59,7 @@ public class LikeService {
     }
 
     public void deleteOneLikeById(Long likeId) {
-        log.info("LikeService -> deleteOneLikeById() called with likeId: " + likeId);
+        log.trace("LikeService -> deleteOneLikeById() called with likeId: " + likeId);
         likeRepository.deleteById(likeId);
     }
 }

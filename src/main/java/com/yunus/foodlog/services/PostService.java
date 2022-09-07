@@ -30,7 +30,7 @@ public class PostService {
     }
 
     public List<PostResponse> getAllPosts(Optional<Long> userId) {
-        log.info("PostService -> getAllPosts() called with userId: " + userId);
+        log.trace("PostService -> getAllPosts() called with userId: " + userId);
         List<Post> list;
         if(userId.isPresent()) {
             list = postRepository.findByUserId(userId.get());
@@ -44,12 +44,12 @@ public class PostService {
     }
 
     public Post getOnePostById(Long postId) {
-        log.info("PostService -> getOnePostById() called with postId: " + postId);
+        log.trace("PostService -> getOnePostById() called with postId: " + postId);
         return postRepository.findById(postId).orElse(null);
     }
 
     public Post createOnePost(PostCreateRequest newPostRequest) {
-        log.info("PostService -> createOnePost() called with newPostRequest: " + newPostRequest.toString());
+        log.trace("PostService -> createOnePost() called with newPostRequest: " + newPostRequest.toString());
         User user = userService.getOneUserById(newPostRequest.getUserId());
 
         if(user == null)
@@ -67,7 +67,7 @@ public class PostService {
     }
 
     public Post updateOnePostById(Long postId, PostUpdateRequest postUpdateRequest) {
-        log.info("PostService -> updateOnePostById() called with postUpdateRequest: " + postUpdateRequest.toString());
+        log.trace("PostService -> updateOnePostById() called with postUpdateRequest: " + postUpdateRequest.toString());
         Optional<Post> post = postRepository.findById(postId);
         if(post.isPresent()) {
             Post toUpdate = post.get();
@@ -90,7 +90,7 @@ public class PostService {
     }
 
     public void deleteOnePostById(Long postId) {
-        log.info("PostService -> deleteOnePostById() called with postId: " + postId);
+        log.trace("PostService -> deleteOnePostById() called with postId: " + postId);
         postRepository.deleteById(postId);
     }
 }
