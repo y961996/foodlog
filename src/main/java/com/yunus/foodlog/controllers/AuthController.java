@@ -35,14 +35,14 @@ public class AuthController {
         Authentication auth = authenticationManager.authenticate(authToken);
         SecurityContextHolder.getContext().setAuthentication(auth);
         String jwtToken = jwtTokenProvider.generateJwtToken(auth);
-        log.trace("User: " + loginRequest.getUserName() + " logged in successfully");
+        log.info("User: " + loginRequest.getUserName() + " logged in successfully");
         return "Bearer " + jwtToken;
     }
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody UserRequest registerRequest) {
         if(userService.getOneUserByUserName(registerRequest.getUserName()) != null) {
-            log.trace("User tried to register with already existed username: " + registerRequest.getUserName());
+            log.info("User tried to register with already existed username: " + registerRequest.getUserName());
             return new ResponseEntity<>("Username already exists!", HttpStatus.BAD_REQUEST);
         }
 
@@ -50,7 +50,7 @@ public class AuthController {
         user.setUserName(registerRequest.getUserName());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         userService.createOneUser(user);
-        log.trace("User: " + registerRequest.getUserName() + " successfully registered");
+        log.info("User: " + registerRequest.getUserName() + " successfully registered");
         return new ResponseEntity<>("User successfully registered.", HttpStatus.CREATED);
     }
 }

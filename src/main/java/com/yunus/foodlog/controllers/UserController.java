@@ -18,31 +18,31 @@ public class UserController {
 
     @GetMapping
     public List<User> getAllUsers() {
-        log.trace("UserController -> getAllUsers() called");
+        log.info("UserController -> getAllUsers() called");
         return userService.getAllUsers();
     }
 
     @GetMapping(path = "{userId}")
     public User getUserById(@PathVariable("userId") Long userId) {
-        log.trace("UserController -> getUserById() called with userId: " + userId);
+        log.info("UserController -> getUserById() called with userId: " + userId);
         return userService.getOneUserById(userId);
     }
 
     @PostMapping
     public User createUser(@RequestBody User newUser) {
-        log.trace("UserController -> createUser() called with newUser: " + newUser.toString());
+        log.info("UserController -> createUser() called with newUser: " + newUser.toString());
         return userService.createOneUser(newUser);
     }
 
     @PutMapping(path = "{userId}")
     public User updateUserById(@PathVariable("userId") Long userId, @RequestBody User newUser) {
-        log.trace("UserController -> updateUserById() called with userId: " + userId + ", newUser: " + newUser.toString());
+        log.info("UserController -> updateUserById() called with userId: " + userId + ", newUser: " + newUser.toString());
         return userService.updateOneUserById(userId, newUser);
     }
 
     @DeleteMapping(path = "{userId}")
     public void deleteUserById(@PathVariable("userId") Long userId) {
-        log.trace("UserController -> deleteUserById() called with userId: " + userId);
+        log.info("UserController -> deleteUserById() called with userId: " + userId);
         userService.deleteOneUserById(userId);
     }
 }

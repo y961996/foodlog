@@ -21,13 +21,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        log.trace("UserDetailsServiceImpl -> loadUserByUsername() called with username: " + username);
+        log.info("UserDetailsServiceImpl -> loadUserByUsername() called with username: " + username);
         User user = userRepository.findByUserName(username);
         return JwtUserDetails.create(user);
     }
 
     public UserDetails loadUserById(Long id) {
-        log.trace("UserDetailsServiceImpl -> loadUserById() called with id: " + id);
+        log.info("UserDetailsServiceImpl -> loadUserById() called with id: " + id);
         Optional<User> user = userRepository.findById(id);
         //TODO: UserNotFound Exception
         return user.map(JwtUserDetails::create).orElse(null);

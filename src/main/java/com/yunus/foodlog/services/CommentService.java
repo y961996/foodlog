@@ -23,7 +23,7 @@ public class CommentService {
     private final PostService postService;
 
     public List<Comment> getAllComments(Optional<Long> userId, Optional<Long> postId) {
-        log.trace("CommentService -> getAllComments() called with userId: " + userId + ", postId: " + postId);
+        log.info("CommentService -> getAllComments() called with userId: " + userId + ", postId: " + postId);
         if(userId.isPresent() && postId.isPresent()) {
             return commentRepository.findByUserIdAndPostId(userId.get(), postId.get());
         } else if(userId.isPresent()) {
@@ -36,12 +36,12 @@ public class CommentService {
     }
 
     public Comment getOneCommentById(Long commentId) {
-        log.trace("CommentService -> getOneCommentById() called with commentId: " + commentId);
+        log.info("CommentService -> getOneCommentById() called with commentId: " + commentId);
         return commentRepository.findById(commentId).orElse(null);
     }
 
     public Comment createOneComment(CommentCreateRequest commentCreateRequest) {
-        log.trace("CommentService -> createOneComment() called with commentCreateRequest: " + commentCreateRequest.toString());
+        log.info("CommentService -> createOneComment() called with commentCreateRequest: " + commentCreateRequest.toString());
         User user = userService.getOneUserById(commentCreateRequest.getUserId());
         Post post = postService.getOnePostById(commentCreateRequest.getPostId());
         if(user != null && post != null) {
@@ -57,7 +57,7 @@ public class CommentService {
     }
 
     public Comment updateOneCommentById(Long commentId, CommentUpdateRequest commentUpdateRequest) {
-        log.trace("CommentService -> updateOneCommentById() called with commentId: " + commentId + ", commentUpdateRequest: " + commentUpdateRequest.toString());
+        log.info("CommentService -> updateOneCommentById() called with commentId: " + commentId + ", commentUpdateRequest: " + commentUpdateRequest.toString());
         Optional<Comment> comment = commentRepository.findById(commentId);
         if (comment.isPresent()) {
             Comment commentToUpdate = comment.get();
@@ -69,7 +69,7 @@ public class CommentService {
     }
 
     public void deleteOneCommentById(Long commentId) {
-        log.trace("CommentService -> deleteOneCommentById() called with commentId: " + commentId);
+        log.info("CommentService -> deleteOneCommentById() called with commentId: " + commentId);
         commentRepository.deleteById(commentId);
     }
 }

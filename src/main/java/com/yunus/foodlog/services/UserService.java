@@ -17,22 +17,22 @@ public class UserService {
     private final UserRepository userRepository;
 
     public List<User> getAllUsers() {
-        log.trace("UserService -> getAllUsers() called");
+        log.info("UserService -> getAllUsers() called");
         return userRepository.findAll();
     }
 
     public User createOneUser(User newUser) {
-        log.trace("UserService -> createOneUser() called with newUser: " + newUser.toString());
+        log.info("UserService -> createOneUser() called with newUser: " + newUser.toString());
         return userRepository.save(newUser);
     }
 
     public User getOneUserById(Long userId) {
-        log.trace("UserService -> getOneUserById() called with userId: " + userId);
+        log.info("UserService -> getOneUserById() called with userId: " + userId);
         return userRepository.findById(userId).orElse(null);
     }
 
     public User updateOneUserById(Long userId, User newUser) {
-        log.trace("UserService -> updateOneUserById() called with userId: " + userId + ", newUser: " + newUser.toString());
+        log.info("UserService -> updateOneUserById() called with userId: " + userId + ", newUser: " + newUser.toString());
         Optional<User> user = userRepository.findById(userId);
         if(user.isPresent()) {
             User foundUser = user.get();
@@ -46,12 +46,12 @@ public class UserService {
     }
 
     public void deleteOneUserById(Long userId) {
-        log.trace("UserService -> deleteOneUserById() called with userId: " + userId);
+        log.info("UserService -> deleteOneUserById() called with userId: " + userId);
         userRepository.deleteById(userId);
     }
 
     public User getOneUserByUserName(String userName) {
-        log.trace("UserService -> getOneUserByUserName() called with userName: " + userName);
+        log.info("UserService -> getOneUserByUserName() called with userName: " + userName);
         return userRepository.findByUserName(userName);
     }
 }
