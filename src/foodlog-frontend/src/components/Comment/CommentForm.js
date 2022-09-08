@@ -1,8 +1,11 @@
 import {Avatar, Button, CardContent, InputAdornment, OutlinedInput} from "@mui/material";
 import {makeStyles} from "@mui/styles"
+import {createTheme} from "@mui/material/styles";
 import {Link} from "react-router-dom";
 
-const useStyles = makeStyles((theme) => ({
+const theme = createTheme();
+
+const useStyles = makeStyles(() => ({
     comment: {
         display: "flex", flexWrap: "wrap", justifyContent: "flex-start", alignItems: "center",
     }, small: {
