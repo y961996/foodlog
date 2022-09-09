@@ -2,6 +2,7 @@ import {Avatar, Button, CardContent, InputAdornment, OutlinedInput} from "@mui/m
 import {makeStyles} from "@mui/styles"
 import {createTheme} from "@mui/material/styles";
 import {Link} from "react-router-dom";
+import {useState} from "react";
 
 const theme = createTheme();
 
@@ -16,10 +17,33 @@ const useStyles = makeStyles(() => ({
 }));
 
 function CommentForm(props) {
-    const {text, userId, userName} = props;
+    const {userId, userName, postId} = props;
     const classes = useStyles();
+    const [text, setText] = useState("");
+
+    const saveComment = () => {
+        fetch("/comments", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                postId: postId,
+                userId: userId,
+                text: text,
+            }),
+        })
+            .then((res) => res.json())
+            .catch((err) => console.log("Error: " + err))
+    }
 
     const handleSubmit = () => {
+        saveComment();
+        setText("");
+    }
+
+    const handleChange = (value) => {
+        setText(value);
     }
 
     return (<CardContent className={classes.comment}>
@@ -28,6 +52,7 @@ function CommentForm(props) {
             multiline
             inputProps={{maxLength: 250}}
             fullWidth
+            onChange={(i) => handleChange(i.target.value)}
             startAdornment={<InputAdornment position="start">
                 <Link className={classes.link} to={{pathname: '/users/' + userId}}>
                     <Avatar aria-label="recipe" className={classes.small}>
@@ -46,6 +71,7 @@ function CommentForm(props) {
                     Comment
                 </Button>
             </InputAdornment>}
+            value={text}
             style={{color: "black", backgroundColor: "white"}}
         >
         </OutlinedInput>
