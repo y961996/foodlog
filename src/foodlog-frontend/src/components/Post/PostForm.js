@@ -7,7 +7,6 @@ import CardContent from '@mui/material/CardContent';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {Link} from "react-router-dom";
 import {Button, InputAdornment, OutlinedInput, Snackbar} from "@mui/material";
 import MuiAlert from '@mui/material/Alert';
@@ -44,6 +43,7 @@ function PostForm(props) {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": localStorage.getItem("tokenKey"),
                 },
                 body: JSON.stringify({
                     title: title,
@@ -83,7 +83,7 @@ function PostForm(props) {
 
     return (<div className="postContainer">
         <Snackbar open={isSent} autoHideDuration={1500} onClose={handleClose}>
-            <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+            <Alert onClose={handleClose} severity="success" sx={{width: '100%'}}>
                 Your post has sent successfully!
             </Alert>
         </Snackbar>

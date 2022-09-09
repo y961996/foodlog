@@ -1,6 +1,5 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Post from "../Post/Post";
-import {useEffect, useState} from "react";
 import "./Home.scss";
 import PostForm from "../Post/PostForm";
 
@@ -48,9 +47,10 @@ function Home() {
             //TODO: This container doesn't work properly. (It won't expand with the posts and
             //      posts don't have margins between them.
             <div className="container">
-                <PostForm userId={1}
-                          userName={"username"}
-                          refreshPosts={refreshPosts} />
+                {localStorage.getItem("currentUser") === null ? "" :
+                    <PostForm userId={localStorage.getItem("currentUser")}
+                              userName={localStorage.getItem("userName")}
+                              refreshPosts={refreshPosts}/>}
                 {postList.map(post => (
                     <Post
                         likes={post.postLikes}

@@ -47,6 +47,8 @@ function Post(props) {
     const [likeCount, setLikeCount] = useState(likes.length);
     const [likeId, setLikeId] = useState(null);
 
+    let disabled = localStorage.getItem("currentUser") === null;
+
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
@@ -84,10 +86,12 @@ function Post(props) {
 
     const saveLike = () => {
         fetch("/likes", {
-            method: "POST", headers: {
+            method: "POST",
+            headers: {
                 "Content-Type": "application/json",
+                "Authorization": localStorage.getItem("tokenKey"),
             }, body: JSON.stringify({
-                postId: postId, userId: userId,
+                postId: postId, userId: localStorage.getItem("currentUser"),
             }),
         })
             .then((res) => res.json())
@@ -96,13 +100,16 @@ function Post(props) {
 
     const deleteLike = () => {
         fetch("/likes/" + likeId, {
-            method: "DELETE"
+            method: "DELETE",
+            headers: {
+                "Authorization": localStorage.getItem("tokenKey"),
+            },
         })
             .catch((err) => console.log("Error: " + err))
     }
 
     const checkLikes = () => {
-        let likeControl = likes.find((like) => like.userId === userId);
+        let likeControl = likes.find((like) => ""+like.userId === localStorage.getItem("currentUser"));
         if (likeControl != null) {
             setLikeId(likeControl.id);
             setIsLiked(true);
@@ -146,7 +153,7 @@ function Post(props) {
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
-                <IconButton onClick={handleLike} aria-label="add to favorites">
+                <IconButton disabled={disabled} onClick={handleLike} aria-label="add to favorites">
                     <FavoriteIcon sx={isLiked ? {color: "red"} : null}/>
                 </IconButton>
                 {likeCount}
@@ -183,7 +190,8 @@ function Post(props) {
                 <Container fixed>
                     {error ? "Error: " + error : isLoaded ? commentList.map(comment => (
                         <Comment userId={1} userName={"USER"} text={comment.text}></Comment>)) : "Loading..."}
-                    <CommentForm userId={1} userName={"USER"} postId={postId}></CommentForm>
+                    {disabled ? "" :
+                        <CommentForm userId={1} userName={"USER"} postId={postId}></CommentForm>}
                 </Container>
             </Collapse>
         </Card>
