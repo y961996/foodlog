@@ -53,6 +53,7 @@ function Home() {
                           refreshPosts={refreshPosts} />
                 {postList.map(post => (
                     <Post
+                        likes={post.postLikes}
                         postId={post.id}
                         userId={post.userId}
                         userName={post.userName}
