@@ -1,6 +1,7 @@
 package com.yunus.foodlog.entities;
 
 import lombok.Data;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
@@ -15,4 +16,5 @@ public class User {
 
     private String userName;
     private String password;
+    private int avatar;
 }
