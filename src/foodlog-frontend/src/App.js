@@ -14,7 +14,7 @@ function App() {
                     <Route path="/" element={<Home/>}></Route>
                     <Route path="/users/:userId" element={<User/>}></Route>
                     <Route path="/auth"
-                           element={localStorage.getItem("currentUser") != null ? <Navigate to="/" replace/> : <Auth/>}
+                           element={localStorage.getItem("currentUser") !== null ? <Navigate to="/" replace/> : <Auth/>}
                     >
                     </Route>
                 </Routes>

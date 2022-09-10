@@ -31,15 +31,15 @@ function Auth() {
                 localStorage.setItem("tokenKey", result.message);
                 localStorage.setItem("currentUser", result.userId);
                 localStorage.setItem("userName", username);
+                setUsername("");
+                setPassword("");
+                navigate(0);
             })
             .catch((err) => console.log("Error: " + err))
     }
 
     const handleButton = (path) => {
         sendRequest(path);
-        setUsername("");
-        setPassword("");
-        navigate("../auth", { replace: true });
     }
 
     return (
