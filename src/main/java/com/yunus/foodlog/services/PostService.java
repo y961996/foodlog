@@ -93,4 +93,8 @@ public class PostService {
         log.info("PostService -> deleteOnePostById() called with postId: " + postId);
         postRepository.deleteById(postId);
     }
+
+    public Long getCount(){
+        return postRepository.count();
+    }
 }

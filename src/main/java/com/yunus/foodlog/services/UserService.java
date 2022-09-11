@@ -54,4 +54,9 @@ public class UserService {
         log.info("UserService -> getOneUserByUserName() called with userName: " + userName);
         return userRepository.findByUserName(userName);
     }
+
+    public Long getCount(){
+        log.info("UserService -> getCount() called");
+        return userRepository.count();
+    }
 }
