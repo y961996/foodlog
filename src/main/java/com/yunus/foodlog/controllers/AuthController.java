@@ -57,7 +57,10 @@ public class AuthController {
         user.setUserName(registerRequest.getUserName());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         userService.createOneUser(user);
+        //TODO: Check if user exist
+        Long registeredUserId = userService.getOneUserByUserName(registerRequest.getUserName()).getId();
         authResponse.setMessage("User successfully registered.");
+        authResponse.setUserId(registeredUserId);
         log.info("User: " + registerRequest.getUserName() + " successfully registered");
         return new ResponseEntity<>(authResponse, HttpStatus.CREATED);
     }

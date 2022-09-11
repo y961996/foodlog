@@ -1,7 +1,6 @@
 package com.yunus.foodlog.entities;
 
 import lombok.Data;
-import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
