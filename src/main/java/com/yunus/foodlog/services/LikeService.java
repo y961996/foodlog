@@ -62,4 +62,9 @@ public class LikeService {
         log.info("LikeService -> deleteOneLikeById() called with likeId: " + likeId);
         likeRepository.deleteById(likeId);
     }
+
+    public List<Like> getAllLikesByUserId(Long userId){
+        log.info("LikeService -> getAllLikesByUserId() called with userId: " + userId);
+        return likeRepository.findByUserId(userId);
+    }
 }
