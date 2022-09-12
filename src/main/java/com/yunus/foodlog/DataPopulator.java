@@ -1,5 +1,6 @@
 package com.yunus.foodlog;
 
+import com.yunus.foodlog.entities.Like;
 import com.yunus.foodlog.entities.Post;
 import com.yunus.foodlog.entities.User;
 import com.yunus.foodlog.requests.CommentCreateRequest;
@@ -12,6 +13,7 @@ import com.yunus.foodlog.services.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Random;
 
 @Component
@@ -41,7 +43,7 @@ public class DataPopulator {
     }
 
     public void createUser() {
-        for(int i = 0; i < 6; i++)
+        for (int i = 0; i < 6; i++)
             userService.createOneUser(getUserWithParam("test" + i, "test" + i, i));
         userService.createOneUser(getUserWithParam("user", "password", 2));
         userService.createOneUser(getUserWithParam("admin", "admin", 3));
@@ -62,7 +64,7 @@ public class DataPopulator {
     }
 
     public void createPost() {
-        for(int i = 1; i <= 10; i++)
+        for (int i = 1; i <= 10; i++)
             postService.createOnePost(getPostWithParam("Title " + i, "Text" + i));
     }
 
@@ -90,6 +92,15 @@ public class DataPopulator {
         User user = pickRandomUser();
         Post post = pickRandomPost();
 
+        System.out.println("**********************************************");
+
+        System.out.println("This is a test...");
+        List<Like> likes = likeService.getAllLikesByUserId(user.getId());
+        for (Like like : likes) {
+            if (post.getId().longValue() == like.getPost().getId().longValue())
+                return null;
+        }
+
         likeCreateRequest.setUserId(user.getId());
         likeCreateRequest.setPostId(post.getId());
 
@@ -97,8 +108,13 @@ public class DataPopulator {
     }
 
     public void createLike() {
-        for (int i = 1; i <= 10; i++)
-            likeService.createOneLike(getLikeWithParam());
+        for (int i = 1; i <= 10; i++) {
+            LikeCreateRequest likeCreateRequest = getLikeWithParam();
+            if (likeCreateRequest != null)
+                likeService.createOneLike(likeCreateRequest);
+            else
+                i = i > 0 ? i-1 : 0;
+        }
     }
 
     private User pickRandomUser() {
