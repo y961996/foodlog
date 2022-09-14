@@ -92,9 +92,6 @@ public class DataPopulator {
         User user = pickRandomUser();
         Post post = pickRandomPost();
 
-        System.out.println("**********************************************");
-
-        System.out.println("This is a test...");
         List<Like> likes = likeService.getAllLikesByUserId(user.getId());
         for (Like like : likes) {
             if (post.getId().longValue() == like.getPost().getId().longValue())
