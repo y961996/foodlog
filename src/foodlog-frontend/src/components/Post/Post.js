@@ -47,8 +47,13 @@ function Post(props) {
     const isInitialMount = useRef(true);
     const [likeCount, setLikeCount] = useState(likes.length);
     const [likeId, setLikeId] = useState(null);
+    const [refresh, setRefresh] = useState(false)
 
     let disabled = localStorage.getItem("currentUser") === null;
+
+    const setCommentRefresh = () => {
+        setRefresh(true);
+    }
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -83,6 +88,8 @@ function Post(props) {
                 setIsLoaded(true);
                 setError(error);
             })
+
+        setRefresh(false);
     }
 
     const saveLike = () => {
@@ -109,7 +116,7 @@ function Post(props) {
 
     useEffect(() => {
         if (isInitialMount.current) isInitialMount.current = false; else refreshComments();
-    }, [commentList]);
+    }, [refresh]);
 
     useEffect(() => {
         checkLikes();
@@ -182,7 +189,8 @@ function Post(props) {
                     {error ? "Error: " + error : isLoaded ? commentList.map(comment => (
                         <Comment userId={1} userName={"USER"} text={comment.text}></Comment>)) : "Loading..."}
                     {disabled ? "" :
-                        <CommentForm userId={1} userName={"USER"} postId={postId}></CommentForm>}
+                        <CommentForm userId={1} userName={"USER"} postId={postId}
+                                     setCommentRefresh={setCommentRefresh}></CommentForm>}
                 </Container>
             </Collapse>
         </Card>

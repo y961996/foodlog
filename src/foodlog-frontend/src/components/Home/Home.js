@@ -36,7 +36,7 @@ function Home() {
     let responseClone;
     useEffect(() => {
         refreshPosts();
-    }, [postList]);
+    }, []);
 
     if (error) {
         return <div>Error!!!</div>;

@@ -18,7 +18,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 function CommentForm(props) {
-    const {userId, userName, postId} = props;
+    const {userId, userName, postId, setCommentRefresh} = props;
     const classes = useStyles();
     const [text, setText] = useState("");
 
@@ -35,6 +35,7 @@ function CommentForm(props) {
     const handleSubmit = () => {
         saveComment();
         setText("");
+        setCommentRefresh();
     }
 
     const handleChange = (value) => {
