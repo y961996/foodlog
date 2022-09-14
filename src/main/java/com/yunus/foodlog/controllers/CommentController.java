@@ -3,6 +3,7 @@ package com.yunus.foodlog.controllers;
 import com.yunus.foodlog.entities.Comment;
 import com.yunus.foodlog.requests.CommentCreateRequest;
 import com.yunus.foodlog.requests.CommentUpdateRequest;
+import com.yunus.foodlog.responses.CommentResponse;
 import com.yunus.foodlog.services.CommentService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -20,7 +21,7 @@ public class CommentController {
     private final CommentService commentService;
 
     @GetMapping
-    public List<Comment> getAllComments(@RequestParam Optional<Long> userId, @RequestParam Optional<Long> postId) {
+    public List<CommentResponse> getAllComments(@RequestParam Optional<Long> userId, @RequestParam Optional<Long> postId) {
         log.info("CommentController -> getAllComments() called with userId: " + userId + ", postId: " + postId);
         return commentService.getAllComments(userId, postId);
     }

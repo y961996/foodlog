@@ -6,6 +6,7 @@ import com.yunus.foodlog.entities.User;
 import com.yunus.foodlog.repositories.CommentRepository;
 import com.yunus.foodlog.requests.CommentCreateRequest;
 import com.yunus.foodlog.requests.CommentUpdateRequest;
+import com.yunus.foodlog.responses.CommentResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -23,17 +25,20 @@ public class CommentService {
     private final UserService userService;
     private final PostService postService;
 
-    public List<Comment> getAllComments(Optional<Long> userId, Optional<Long> postId) {
+    public List<CommentResponse> getAllComments(Optional<Long> userId, Optional<Long> postId) {
         log.info("CommentService -> getAllComments() called with userId: " + userId + ", postId: " + postId);
+        List<Comment> comments;
         if(userId.isPresent() && postId.isPresent()) {
-            return commentRepository.findByUserIdAndPostId(userId.get(), postId.get());
+            comments = commentRepository.findByUserIdAndPostId(userId.get(), postId.get());
         } else if(userId.isPresent()) {
-            return commentRepository.findByUserId(userId.get());
+            comments = commentRepository.findByUserId(userId.get());
         } else if(postId.isPresent()) {
-            return commentRepository.findByPostId(postId.get());
+            comments = commentRepository.findByPostId(postId.get());
         } else {
-            return commentRepository.findAll();
+            comments = commentRepository.findAll();
         }
+
+        return comments.stream().map(CommentResponse::new).collect(Collectors.toList());
     }
 
     public Comment getOneCommentById(Long commentId) {

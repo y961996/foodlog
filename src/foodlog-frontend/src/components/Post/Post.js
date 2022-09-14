@@ -187,9 +187,11 @@ function Post(props) {
             <Collapse in={expandedComments} timeout="auto" unmountOnExit>
                 <Container fixed>
                     {error ? "Error: " + error : isLoaded ? commentList.map(comment => (
-                        <Comment userId={1} userName={"USER"} text={comment.text}></Comment>)) : "Loading..."}
+                        <Comment userId={comment.userId} userName={comment.userName}
+                                 text={comment.text}></Comment>)) : "Loading..."}
                     {disabled ? "" :
-                        <CommentForm userId={1} userName={"USER"} postId={postId}
+                        <CommentForm userId={localStorage.getItem("currentUser")}
+                                     userName={localStorage.getItem("userName")} postId={postId}
                                      setCommentRefresh={setCommentRefresh}></CommentForm>}
                 </Container>
             </Collapse>
