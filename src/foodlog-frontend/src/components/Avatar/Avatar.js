@@ -7,10 +7,20 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import {List, ListItem, ListItemSecondaryAction, Modal, Radio} from "@mui/material";
 import {useState} from "react";
+import {PutWithAuth} from "../../services/HttpService";
 
-function Avatar() {
+function Avatar(props) {
+    const {avatarId} = props;
     const [open, setOpen] = useState(false);
-    const [selectedValue, setSelectedValue] = useState(0);
+    const [selectedValue, setSelectedValue] = useState(avatarId);
+
+    const saveAvatar = () => {
+        PutWithAuth("/users/"+localStorage.getItem("currentUser"), {
+            avatar: selectedValue,
+        })
+            .then(res => res.json())
+            .catch(err => console.log(err))
+    }
 
     const handleChange = (event) => {
         setSelectedValue(event.target.value);
@@ -22,6 +32,7 @@ function Avatar() {
 
     const handleClose = () => {
         setOpen(false);
+        saveAvatar();
     }
 
     return (

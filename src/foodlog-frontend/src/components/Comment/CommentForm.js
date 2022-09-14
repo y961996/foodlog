@@ -3,6 +3,7 @@ import {makeStyles} from "@mui/styles"
 import {createTheme} from "@mui/material/styles";
 import {Link} from "react-router-dom";
 import {useState} from "react";
+import {PostWithAuth} from "../../services/HttpService";
 
 const theme = createTheme();
 
@@ -22,17 +23,10 @@ function CommentForm(props) {
     const [text, setText] = useState("");
 
     const saveComment = () => {
-        fetch("/comments", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": localStorage.getItem("tokenKey"),
-            },
-            body: JSON.stringify({
-                postId: postId,
-                userId: userId,
-                text: text,
-            }),
+        PostWithAuth("/comments", {
+            postId: postId,
+            userId: userId,
+            text: text,
         })
             .then((res) => res.json())
             .catch((err) => console.log("Error: " + err))

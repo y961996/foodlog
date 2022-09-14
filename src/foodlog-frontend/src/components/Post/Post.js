@@ -18,6 +18,7 @@ import {Link} from "react-router-dom";
 import {Container} from "@mui/material";
 import Comment from "../Comment/Comment";
 import CommentForm from "../Comment/CommentForm";
+import {DeleteWithAuth, PostWithAuth} from "../../services/HttpService";
 
 const ExpandMore = styled((props) => {
     const {expand, ...other} = props;
@@ -85,31 +86,21 @@ function Post(props) {
     }
 
     const saveLike = () => {
-        fetch("/likes", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": localStorage.getItem("tokenKey"),
-            }, body: JSON.stringify({
-                postId: postId, userId: localStorage.getItem("currentUser"),
-            }),
+        PostWithAuth("/likes", {
+            postId: postId,
+            userId: localStorage.getItem("currentUser"),
         })
             .then((res) => res.json())
             .catch((err) => console.log("Error: " + err))
     }
 
     const deleteLike = () => {
-        fetch("/likes/" + likeId, {
-            method: "DELETE",
-            headers: {
-                "Authorization": localStorage.getItem("tokenKey"),
-            },
-        })
+        DeleteWithAuth("/likes/" + likeId)
             .catch((err) => console.log("Error: " + err))
     }
 
     const checkLikes = () => {
-        let likeControl = likes.find((like) => ""+like.userId === localStorage.getItem("currentUser"));
+        let likeControl = likes.find((like) => "" + like.userId === localStorage.getItem("currentUser"));
         if (likeControl != null) {
             setLikeId(likeControl.id);
             setIsLiked(true);

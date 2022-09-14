@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import {Link} from "react-router-dom";
 import {Button, InputAdornment, OutlinedInput, Snackbar} from "@mui/material";
 import MuiAlert from '@mui/material/Alert';
+import {PostWithAuth} from "../../services/HttpService";
 
 const Alert = forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -38,19 +39,11 @@ function PostForm(props) {
     const [isSent, setIsSent] = useState(false);
 
     const savePost = () => {
-        fetch("/posts",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": localStorage.getItem("tokenKey"),
-                },
-                body: JSON.stringify({
-                    title: title,
-                    userId: userId,
-                    text: text,
-                }),
-            })
+        PostWithAuth("/posts", {
+            title: title,
+            userId: userId,
+            text: text,
+        })
             .then((res) => res.json())
             .catch((err) => console.log("err: " + err))
     }
