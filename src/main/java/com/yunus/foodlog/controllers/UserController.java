@@ -1,6 +1,7 @@
 package com.yunus.foodlog.controllers;
 
 import com.yunus.foodlog.entities.User;
+import com.yunus.foodlog.responses.UserResponse;
 import com.yunus.foodlog.services.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -23,9 +24,14 @@ public class UserController {
     }
 
     @GetMapping(path = "{userId}")
-    public User getUserById(@PathVariable("userId") Long userId) {
+    public UserResponse getUserById(@PathVariable("userId") Long userId) {
         log.info("UserController -> getUserById() called with userId: " + userId);
-        return userService.getOneUserById(userId);
+        return new UserResponse(userService.getOneUserById(userId));
+    }
+
+    @GetMapping("/activity/{userId}")
+    public List<Object> getUserActivity(@PathVariable("userId") Long userId) {
+        return userService.getUserActivity(userId);
     }
 
     @PostMapping
