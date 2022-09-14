@@ -11,6 +11,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -48,6 +49,12 @@ public class PostService {
         return postRepository.findById(postId).orElse(null);
     }
 
+    public PostResponse getOnePostByIdWithLikes(Long postId) {
+        Post post = postRepository.findById(postId).orElse(null);
+        List<LikeResponse> likes = likeService.getAllLikes(Optional.empty(), Optional.of(postId));
+        return new PostResponse(post, likes);
+    }
+
     public Post createOnePost(PostCreateRequest newPostRequest) {
         log.info("PostService -> createOnePost() called with newPostRequest: " + newPostRequest.toString());
         User user = userService.getOneUserById(newPostRequest.getUserId());
@@ -62,6 +69,7 @@ public class PostService {
         toSave.setUser(user);
         toSave.setImagePaths(newPostRequest.getImagePaths());
         toSave.setShortVideoPath(newPostRequest.getShortVideoPath());
+        toSave.setCreateDate(new Date());
 
         return postRepository.save(toSave);
     }
