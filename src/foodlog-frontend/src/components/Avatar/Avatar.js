@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useState} from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -6,16 +7,15 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import {List, ListItem, ListItemSecondaryAction, Modal, Radio} from "@mui/material";
-import {useState} from "react";
 import {PutWithAuth} from "../../services/HttpService";
 
 function Avatar(props) {
-    const {avatarId} = props;
+    const {avatarId, userId, userName} = props;
     const [open, setOpen] = useState(false);
     const [selectedValue, setSelectedValue] = useState(avatarId);
 
     const saveAvatar = () => {
-        PutWithAuth("/users/"+localStorage.getItem("currentUser"), {
+        PutWithAuth("/users/" + localStorage.getItem("currentUser"), {
             avatar: selectedValue,
         })
             .then(res => res.json())
@@ -46,18 +46,20 @@ function Avatar(props) {
                 />
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                        Username
+                        {userName}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                         User Info
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <Button size="small" color="primary" onClick={handleOpen}>Change Avatar</Button>
+                    {localStorage.getItem("currentUser") === userId ?
+                        <Button size="small" color="primary" onClick={handleOpen}>Change Avatar</Button>
+                        : ""}
                 </CardActions>
             </Card>
             <Modal
-                style={{ display: "flex", maxWidth: 200 }}
+                style={{display: "flex", maxWidth: 200}}
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
@@ -66,10 +68,10 @@ function Avatar(props) {
                 <List dense>
                     {[1, 2, 3, 4, 5, 6].map((key) => {
                         const labelId = `checkbox-list-secondary-label-${key}`;
-                        return(
+                        return (
                             <ListItem key={key} button>
                                 <CardMedia
-                                    style={{ maxWidth: 100 }}
+                                    style={{maxWidth: 100}}
                                     component="img"
                                     alt={`Avatar n${key}`}
                                     image={`/avatars/avatar${key}.png`}
@@ -81,7 +83,7 @@ function Avatar(props) {
                                         value={key}
                                         onChange={handleChange}
                                         checked={"" + selectedValue === "" + key}
-                                        inputProps={{ 'aria-labelledby': labelId }}
+                                        inputProps={{'aria-labelledby': labelId}}
                                     />
                                 </ListItemSecondaryAction>
                             </ListItem>

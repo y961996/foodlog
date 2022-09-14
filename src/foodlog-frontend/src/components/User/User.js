@@ -17,7 +17,7 @@ function User() {
     const [user, setUser] = useState();
 
     const getUser = () => {
-        GetWithAuth("/users/"+userId)
+        GetWithAuth("/users/" + userId)
             .then(res => res.json())
             .then(
                 (result) => {
@@ -36,8 +36,8 @@ function User() {
 
     return (
         <div className={classes.root}>
-            {user? <Avatar avatarId={user.avatarId}/> : ""}
-            <UserActivity userId={userId}/>
+            {user ? <Avatar avatarId={user.avatarId} userId={userId} userName={user.userName}/> : ""}
+            {localStorage.getItem("currentUser") === userId ? <UserActivity userId={userId}/> : ""}
         </div>
     );
 }
