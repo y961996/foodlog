@@ -44,6 +44,17 @@ public class JwtTokenProvider {
                 .compact();
     }
 
+    public String generateJwtTokenById(Long userId) {
+        Date expireDate = new Date(new Date().getTime() + EXPIRES_IN);
+        return Jwts.
+                builder().
+                setSubject(Long.toString(userId)).
+                setIssuedAt(new Date()).
+                setExpiration(expireDate).
+                signWith(createSecretKeyFromAppSecret()).
+                compact();
+    }
+
     public Long getUserIdFromJwt(String token) {
         return Long.parseLong(parseToken(token).getSubject());
     }
