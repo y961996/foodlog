@@ -1,10 +1,12 @@
 package com.yunus.foodlog.controllers;
 
 import com.yunus.foodlog.entities.User;
+import com.yunus.foodlog.exceptions.UserNotFoundException;
 import com.yunus.foodlog.responses.UserResponse;
 import com.yunus.foodlog.services.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +28,11 @@ public class UserController {
     @GetMapping(path = "{userId}")
     public UserResponse getUserById(@PathVariable("userId") Long userId) {
         log.info("UserController -> getUserById() called with userId: " + userId);
+        User user = userService.getOneUserById(userId);
+        if (user == null) {
+            log.error("User with id: " + userId + " not found!");
+            throw new UserNotFoundException("User with id: " + userId + " not found!");
+        }
         return new UserResponse(userService.getOneUserById(userId));
     }
 
@@ -50,5 +57,12 @@ public class UserController {
     public void deleteUserById(@PathVariable("userId") Long userId) {
         log.info("UserController -> deleteUserById() called with userId: " + userId);
         userService.deleteOneUserById(userId);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    //@ResponseBody => If wanted body can be returned. Maybe return the message here?
+    private void handleUserNotFoundException() {
+
     }
 }
