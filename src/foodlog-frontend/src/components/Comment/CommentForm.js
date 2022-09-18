@@ -57,7 +57,7 @@ function CommentForm(props) {
                         })
                         .catch((err) => console.log("Error:" + err));
                 } else {
-                    res.json();
+                    return res.json();
                 }
             })
             .catch((err) => console.log("Error: " + err))
