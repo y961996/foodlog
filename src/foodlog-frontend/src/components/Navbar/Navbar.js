@@ -13,6 +13,7 @@ function Navbar() {
 
     const onClick = () => {
         localStorage.removeItem("tokenKey");
+        localStorage.removeItem("refreshKey");
         localStorage.removeItem("currentUser");
         localStorage.removeItem("userName");
         navigate(0, { replace: true });

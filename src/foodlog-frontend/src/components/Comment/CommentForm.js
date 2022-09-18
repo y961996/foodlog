@@ -1,9 +1,9 @@
 import {Avatar, Button, CardContent, InputAdornment, OutlinedInput} from "@mui/material";
 import {makeStyles} from "@mui/styles"
 import {createTheme} from "@mui/material/styles";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useState} from "react";
-import {PostWithAuth} from "../../services/HttpService";
+import {PostWithAuth, RefreshToken} from "../../services/HttpService";
 
 const theme = createTheme();
 
@@ -22,13 +22,44 @@ function CommentForm(props) {
     const classes = useStyles();
     const [text, setText] = useState("");
 
+    let navigate = useNavigate();
+
+    const logout = () => {
+        localStorage.removeItem("tokenKey");
+        localStorage.removeItem("refreshKey");
+        localStorage.removeItem("currentUser");
+        localStorage.removeItem("userName");
+        navigate(0, { replace: true });
+    }
+
     const saveComment = () => {
         PostWithAuth("/comments", {
             postId: postId,
             userId: userId,
             text: text,
         })
-            .then((res) => res.json())
+            .then((res) => {
+                if(!res.ok) {
+                    RefreshToken()
+                        .then((res) => {
+                            if(!res.ok) {
+                                logout();
+                            }else {
+                                return res.json();
+                            }
+                        })
+                        .then((result) => {
+                            if(result !== undefined) {
+                                localStorage.setItem("tokenKey", result.accessToken);
+                                saveComment();
+                                setCommentRefresh();
+                            }
+                        })
+                        .catch((err) => console.log("Error:" + err));
+                } else {
+                    res.json();
+                }
+            })
             .catch((err) => console.log("Error: " + err))
     }
 

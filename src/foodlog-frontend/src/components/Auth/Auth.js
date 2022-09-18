@@ -23,7 +23,8 @@ function Auth() {
         })
             .then((res) => res.json())
             .then((result) => {
-                localStorage.setItem("tokenKey", result.message);
+                localStorage.setItem("tokenKey", result.accessToken);
+                localStorage.setItem("refreshKey", result.refreshToken);
                 localStorage.setItem("currentUser", result.userId);
                 localStorage.setItem("userName", username);
                 setUsername("");
