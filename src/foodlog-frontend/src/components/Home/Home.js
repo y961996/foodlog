@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import Post from "../Post/Post";
 import "./Home.scss";
 import PostForm from "../Post/PostForm";
+import {GetWithoutAuth} from "../../services/HttpService";
 
 function Home() {
     const [error, setError] = useState(null);
@@ -9,7 +10,7 @@ function Home() {
     const [postList, setPostList] = useState([]);
 
     const refreshPosts = () => {
-        fetch("/posts")
+        GetWithoutAuth("/posts")
             .then(res => {
                 responseClone = res.clone();
                 return res.json();

@@ -18,7 +18,7 @@ import {Link} from "react-router-dom";
 import {Container} from "@mui/material";
 import Comment from "../Comment/Comment";
 import CommentForm from "../Comment/CommentForm";
-import {DeleteWithAuth, PostWithAuth} from "../../services/HttpService";
+import {DeleteWithAuth, GetWithoutAuth, PostWithAuth} from "../../services/HttpService";
 
 const ExpandMore = styled((props) => {
     const {expand, ...other} = props;
@@ -77,7 +77,7 @@ function Post(props) {
     }
 
     const refreshComments = () => {
-        fetch("/comments?postId=" + postId)
+        GetWithoutAuth("/comments?postId=" + postId)
             .then(res => {
                 return res.json();
             })
