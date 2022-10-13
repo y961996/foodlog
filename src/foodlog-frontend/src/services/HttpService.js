@@ -1,5 +1,5 @@
 export const PostWithAuth = (url, body) => {
-    url = "api/v1" + url;
+    url = "http://localhost:8080/api/v1" + url;
     return fetch(url, {
         method: "POST",
         headers: {
@@ -11,7 +11,7 @@ export const PostWithAuth = (url, body) => {
 }
 
 export const PostWithoutAuth = (url, body) => {
-    url = "api/v1" + url;
+    url = "http://localhost:8080/api/v1" + url;
     return fetch(url, {
         method: 'POST',
         headers: {
@@ -22,7 +22,7 @@ export const PostWithoutAuth = (url, body) => {
 }
 
 export const PutWithAuth = (url, body) => {
-    url = "api/v1" + url;
+    url = "http://localhost:8080/api/v1" + url;
     return fetch(url, {
         method: 'PUT',
         headers: {
@@ -34,7 +34,7 @@ export const PutWithAuth = (url, body) => {
 }
 
 export const GetWithAuth = (url) => {
-    url = "api/v1" + url;
+    url = "http://localhost:8080/api/v1" + url;
     return fetch(url, {
         method: 'GET',
         headers: {
@@ -45,14 +45,17 @@ export const GetWithAuth = (url) => {
 }
 
 export const GetWithoutAuth = (url) => {
-    url = "api/v1" + url;
+    url = "http://localhost:8080/api/v1" + url;
     return fetch(url, {
         method: 'GET',
+        headers: {
+            "Content-Type": "application/json",
+        },
     });
 }
 
 export const DeleteWithAuth = (url) => {
-    url = "api/v1" + url;
+    url = "http://localhost:8080/api/v1" + url;
     return fetch(url, {
         method: 'DELETE',
         headers: {
@@ -63,7 +66,7 @@ export const DeleteWithAuth = (url) => {
 }
 
 export const RefreshToken = () => {
-    return fetch("api/v1/auth/refresh", {
+    return fetch("http://localhost:8080/api/v1/auth/refresh", {
         method: 'POST',
         headers: {
             "Content-Type": "application/json",

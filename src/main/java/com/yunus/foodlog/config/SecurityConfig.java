@@ -46,7 +46,8 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests()
                 // TODO: This needs to be deleted after adding authorization to frontend!!!
-                //.antMatchers("/**", "/static/**").permitAll()
+                // TODO: search for a better way than this for allowing css and other stuff
+                .antMatchers("/**", "/static/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/posts")
                 .permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/comments")

@@ -43,7 +43,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8080/api/v1",
   "devDependencies": {
     "sass": "^1.54.4"
   }
