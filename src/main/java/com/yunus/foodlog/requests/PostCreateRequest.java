@@ -7,7 +7,6 @@ import java.util.List;
 @Data
 public class PostCreateRequest {
 
-    Long id;
     String text;
     String title;
     Long userId;
