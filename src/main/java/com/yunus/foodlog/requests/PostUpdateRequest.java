@@ -7,8 +7,8 @@ import java.util.List;
 @Data
 public class PostUpdateRequest {
 
-    String title;
-    String text;
-    List<String> imagePaths;
-    String shortVideoPath;
+    private String title;
+    private String text;
+    private List<String> imagePaths;
+    private String shortVideoPath;
 }

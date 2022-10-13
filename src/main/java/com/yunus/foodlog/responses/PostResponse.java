@@ -8,14 +8,14 @@ import java.util.List;
 @Data
 public class PostResponse {
 
-    Long id;
-    Long userId;
-    String userName;
-    String title;
-    String text;
-    List<String> imagePaths;
-    String shortVideoPath;
-    List<LikeResponse> postLikes;
+    private Long id;
+    private Long userId;
+    private String userName;
+    private String title;
+    private String text;
+    private List<String> imagePaths;
+    private String shortVideoPath;
+    private List<LikeResponse> postLikes;
 
     public PostResponse(Post entity, List<LikeResponse> likes) {
         this.id = entity.getId();

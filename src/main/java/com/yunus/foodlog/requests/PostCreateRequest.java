@@ -7,9 +7,9 @@ import java.util.List;
 @Data
 public class PostCreateRequest {
 
-    String text;
-    String title;
-    Long userId;
-    List<String> imagePaths;
-    String shortVideoPath;
+    private String text;
+    private String title;
+    private Long userId;
+    private List<String> imagePaths;
+    private String shortVideoPath;
 }

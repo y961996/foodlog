@@ -5,8 +5,8 @@ import lombok.Data;
 @Data
 public class AuthResponse {
 
-    String message;
-    Long userId;
-    String accessToken;
-    String refreshToken;
+    private String message;
+    private Long userId;
+    private String accessToken;
+    private String refreshToken;
 }

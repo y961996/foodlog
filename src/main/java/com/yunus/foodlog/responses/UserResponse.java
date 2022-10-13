@@ -6,9 +6,9 @@ import lombok.Data;
 @Data
 public class UserResponse {
 
-    Long id;
-    int avatarId;
-    String userName;
+    private Long id;
+    private int avatarId;
+    private String userName;
 
     public UserResponse(User entity) {
         this.id = entity.getId();
