@@ -1,24 +1,24 @@
 package com.yunus.foodlog;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 
 @SpringBootApplication
 public class FoodLogApplication {
 
-    private final DataPopulator dataPopulator;
-
-    public FoodLogApplication(DataPopulator dataPopulator) {
-        this.dataPopulator = dataPopulator;
-    }
+    @Autowired(required = false)
+    private DataPopulator dataPopulator;
 
     public static void main(String[] args) {
         SpringApplication.run(FoodLogApplication.class, args);
     }
 
     @Bean
+    @Profile("!test")
     public CommandLineRunner commandLineRunner() {
         return args -> {
             System.out.println("====================================================================");
