@@ -22,7 +22,7 @@ public class PostController {
 
     @GetMapping
     public List<PostResponse> getAllPosts(@RequestParam Optional<Long> userId) {
-        log.info("PostController -> getAllPosts() called with userId: " + userId);
+        log.info("PostController -> getAllPosts() called with userId: " + (userId.isPresent() ? userId.get() : userId));
         return postService.getAllPosts(userId);
     }
 

@@ -24,7 +24,7 @@ public class LikeService {
     private final PostService postService;
 
     public List<LikeResponse> getAllLikes(Optional<Long> userId, Optional<Long> postId) {
-        log.info("LikeService -> getAllLikes() called with userId: " + userId + ", postId: " + postId);
+        log.info("LikeService -> getAllLikes() called with userId: " + (userId.isPresent() ? userId.get() : userId) + ", postId: " + (postId.isPresent() ? postId.get() : postId));
         List<Like> list;
         if(userId.isPresent() && postId.isPresent()) {
             list = likeRepository.findByUserIdAndPostId(userId.get(), postId.get());

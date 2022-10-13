@@ -31,7 +31,7 @@ public class PostService {
     }
 
     public List<PostResponse> getAllPosts(Optional<Long> userId) {
-        log.info("PostService -> getAllPosts() called with userId: " + userId);
+        log.info("PostService -> getAllPosts() called with userId: " + (userId.isPresent() ? userId.get() : userId));
         List<Post> list;
         if(userId.isPresent()) {
             list = postRepository.findByUserId(userId.get());

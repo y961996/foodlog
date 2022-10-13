@@ -22,7 +22,7 @@ public class CommentController {
 
     @GetMapping
     public List<CommentResponse> getAllComments(@RequestParam Optional<Long> userId, @RequestParam Optional<Long> postId) {
-        log.info("CommentController -> getAllComments() called with userId: " + userId + ", postId: " + postId);
+        log.info("CommentController -> getAllComments() called with userId: " + (userId.isPresent() ? userId.get() : userId) + ", postId: " + (postId.isPresent() ? postId.get() : postId));
         return commentService.getAllComments(userId, postId);
     }
 

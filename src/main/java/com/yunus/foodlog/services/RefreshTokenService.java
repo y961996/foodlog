@@ -40,9 +40,4 @@ public class RefreshTokenService {
     public RefreshToken getByUser(Long userId) {
         return refreshTokenRepository.findByUserId(userId);
     }
-
-    /*
-    Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5IiwiaWF0IjoxNjYzMzI2MDE3LCJleHAiOjE2NjMzMjYxMzd9.kCZaHSwjBZDvN2WUrO3Bcx2SrqSYOMk3HjYhEl5AT5A
-
-    */
 }

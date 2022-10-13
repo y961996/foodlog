@@ -21,7 +21,7 @@ public class LikeController {
 
     @GetMapping
     public List<LikeResponse> getAllLikes(@RequestParam Optional<Long> userId, @RequestParam Optional<Long> postId) {
-        log.info("LikeController -> getAllLikes() called with userId: " + userId + " postId: " + postId);
+        log.info("LikeController -> getAllLikes() called with userId: " + (userId.isPresent() ? userId.get() : userId) + " postId: " + (postId.isPresent() ? postId.get() : postId));
         return likeService.getAllLikes(userId, postId);
     }
 

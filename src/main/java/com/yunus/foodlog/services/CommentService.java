@@ -26,7 +26,7 @@ public class CommentService {
     private final PostService postService;
 
     public List<CommentResponse> getAllComments(Optional<Long> userId, Optional<Long> postId) {
-        log.info("CommentService -> getAllComments() called with userId: " + userId + ", postId: " + postId);
+        log.info("CommentService -> getAllComments() called with userId: " + (userId.isPresent() ? userId.get() : userId) + ", postId: " + (postId.isPresent() ? postId.get() : postId));
         List<Comment> comments;
         if(userId.isPresent() && postId.isPresent()) {
             comments = commentRepository.findByUserIdAndPostId(userId.get(), postId.get());
