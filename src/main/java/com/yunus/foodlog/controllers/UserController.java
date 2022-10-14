@@ -1,12 +1,15 @@
 package com.yunus.foodlog.controllers;
 
 import com.yunus.foodlog.entities.User;
+import com.yunus.foodlog.exceptions.UserAlreadyExistsException;
 import com.yunus.foodlog.exceptions.UserNotFoundException;
 import com.yunus.foodlog.responses.UserResponse;
 import com.yunus.foodlog.services.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -65,4 +68,20 @@ public class UserController {
     private void handleUserNotFoundException() {
 
     }
+
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.SEE_OTHER)
+    @ResponseBody
+    private ResponseEntity<Object> handleUserAlreadyExistsException() {
+        return new ResponseEntity<>("Username already exists!", new HttpHeaders(), HttpStatus.SEE_OTHER);
+    }
+
+    /*
+    @ResponseBody
+    @ResponseStatus(HttpStatus.SEE_OTHER)
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    private Error handleUserAlreadyExistsException() {
+        return new Error("Username already exists!");
+    }
+    */
 }
