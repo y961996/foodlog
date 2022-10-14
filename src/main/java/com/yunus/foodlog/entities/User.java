@@ -1,12 +1,17 @@
 package com.yunus.foodlog.entities;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 
+@ToString
+@Getter
+@Setter
+@EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "foodlog_user")
-@Data
 public class User {
 
     @Id
@@ -16,4 +21,10 @@ public class User {
     private String userName;
     private String password;
     private int avatar;
+
+    public User(String userName, String password, int avatar) {
+        this.userName = userName;
+        this.password = password;
+        this.avatar = avatar;
+    }
 }
