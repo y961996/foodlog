@@ -1,6 +1,7 @@
 package com.yunus.foodlog.services;
 
 import com.yunus.foodlog.entities.User;
+import com.yunus.foodlog.exceptions.UserAlreadyExistsException;
 import com.yunus.foodlog.repositories.CommentRepository;
 import com.yunus.foodlog.repositories.LikeRepository;
 import com.yunus.foodlog.repositories.PostRepository;
@@ -30,6 +31,13 @@ public class UserService {
 
     public User createOneUser(User newUser) {
         log.info("UserService -> createOneUser() called with newUser: " + newUser.toString());
+
+        Boolean existsUserWithUserName = userRepository.selectExistsUserName(newUser.getUserName());
+        if(existsUserWithUserName) {
+            log.info("Tried to create user with already registered username: " + newUser.getUserName());
+            throw new UserAlreadyExistsException("Username: " + newUser.getUserName() + " has already taken!");
+        }
+
         return userRepository.save(newUser);
     }
 
