@@ -2,6 +2,7 @@ package com.yunus.foodlog.services;
 
 import com.yunus.foodlog.entities.User;
 import com.yunus.foodlog.exceptions.UserAlreadyExistsException;
+import com.yunus.foodlog.exceptions.UserNotFoundException;
 import com.yunus.foodlog.repositories.CommentRepository;
 import com.yunus.foodlog.repositories.LikeRepository;
 import com.yunus.foodlog.repositories.PostRepository;
@@ -64,6 +65,10 @@ public class UserService {
 
     public void deleteOneUserById(Long userId) {
         log.info("UserService -> deleteOneUserById() called with userId: " + userId);
+        if(!userRepository.existsById(userId)) {
+            log.info("Tried to delete user with id " + userId + ". User does not exist!");
+            throw new UserNotFoundException("User with id " + userId + " does not exist!");
+        }
         userRepository.deleteById(userId);
     }
 

@@ -1,6 +1,8 @@
 package com.yunus.foodlog.services;
 
 import com.yunus.foodlog.entities.User;
+import com.yunus.foodlog.exceptions.UserAlreadyExistsException;
+import com.yunus.foodlog.exceptions.UserNotFoundException;
 import com.yunus.foodlog.repositories.CommentRepository;
 import com.yunus.foodlog.repositories.LikeRepository;
 import com.yunus.foodlog.repositories.PostRepository;
@@ -13,7 +15,12 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -44,7 +51,6 @@ class UserServiceTest {
     }
 
     @Test
-    @Disabled
     void createOneUser() {
         // given
         User user = new User("username", "password", 0);
@@ -62,6 +68,26 @@ class UserServiceTest {
     }
 
     @Test
+    void willThrowWhenCreateUserUsernameIsTaken() {
+        // given
+        User user = new User("username", "password", 0);
+
+        // given(userRepository.selectExistsUserName(user.getUserName()))
+        //        .willReturn(true);
+
+        given(userRepository.selectExistsUserName(anyString()))
+                .willReturn(true);
+
+        // when
+        // then
+        assertThatThrownBy(() -> underTest.createOneUser(user))
+                .isInstanceOf(UserAlreadyExistsException.class)
+                .hasMessageContaining("Username: " + user.getUserName() + " has already taken!");
+
+        verify(userRepository, never()).save(any());
+    }
+
+    @Test
     @Disabled
     void getOneUserById() {
     }
@@ -72,8 +98,31 @@ class UserServiceTest {
     }
 
     @Test
-    @Disabled
     void deleteOneUserById() {
+        // given
+        long id = 72;
+        given(userRepository.existsById(id)).willReturn(true);
+
+        // when
+        underTest.deleteOneUserById(id);
+
+        // then
+        verify(userRepository).deleteById(id);
+    }
+
+    @Test
+    void willThrowWhenDeleteUserNotFound() {
+        // given
+        // when
+        long id = 72;
+        given(userRepository.existsById(id)).willReturn(false);
+
+        // then
+        assertThatThrownBy(() -> underTest.deleteOneUserById(id))
+                .isInstanceOf(UserNotFoundException.class)
+                .hasMessageContaining("User with id " + id + " does not exist!");
+
+        verify(userRepository, never()).deleteById(any());
     }
 
     @Test
