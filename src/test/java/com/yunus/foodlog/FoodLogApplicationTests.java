@@ -9,6 +9,7 @@ class FoodLogApplicationTests {
     @Test
     @Disabled
     void contextLoads() {
+        // This test is useless.
     }
 
 }
