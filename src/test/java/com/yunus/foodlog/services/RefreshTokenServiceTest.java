@@ -36,6 +36,7 @@ class RefreshTokenServiceTest {
         underTest = new RefreshTokenService(refreshTokenRepository);
     }
 
+    //TODO: Check this method and the method below if they can be written more clear
     @Test
     void shouldCreateRefreshTokenWhenTokenIsNull() {
         ReflectionTestUtils.setField(underTest, "expireSeconds", 604800L, Long.class);
@@ -106,34 +107,75 @@ class RefreshTokenServiceTest {
         assertThat(initialToken).isNotEqualTo(refreshTokenRefreshed);
     }
 
+    //TODO: Write this time tests more clear and better
+    //      https://www.youtube.com/watch?v=PrPQ5xHYa0s
     @Test
     void shouldReturnTrueWhenRefreshExpired() {
         // given
+        RefreshToken token = new RefreshToken();
+        token.setExpiryDate(Date.from(Instant.now().minusSeconds(1)));
 
         // when
+        boolean expired = underTest.isRefreshExpired(token);
 
         // then
-
+        assertThat(expired).isTrue();
     }
 
     @Test
     void shouldReturnFalseWhenRefreshNotExpired() {
         // given
+        RefreshToken token = new RefreshToken();
+        token.setExpiryDate(Date.from(Instant.now().plusSeconds(99999)));
 
         // when
+        boolean expired = underTest.isRefreshExpired(token);
 
         // then
-
+        assertThat(expired).isFalse();
     }
 
     @Test
-    void getByUser() {
+    void shouldReturnRefreshTokenWhenTokenExistsByUserId() {
         // given
+        Long userId = 72L;
+
+        RefreshToken token = new RefreshToken();
+        token.setId(1L);
+        token.setToken(UUID.randomUUID().toString());
+        token.setUser(new User(userId, "username", "password", 0));
+        token.setExpiryDate(Date.from(Instant.now().plusSeconds(99999)));
 
         // when
+        when(refreshTokenRepository.findByUserId(userId)).thenReturn(token);
+        RefreshToken tokenFound = underTest.getByUser(userId);
 
         // then
+        ArgumentCaptor<Long> userIdCaptor = ArgumentCaptor.forClass(Long.class);
 
+        verify(refreshTokenRepository).findByUserId(userIdCaptor.capture());
+
+        assertThat(userIdCaptor.getValue().longValue()).isEqualTo(userId.longValue());
+        assertThat(tokenFound).isNotNull();
+        assertThat(tokenFound).isEqualTo(token);
+    }
+
+    @Test
+    void shouldReturnNullWhenTokenDoesNotExistByUserId() {
+        // given
+        Long userId = 72L;
+
+        // when
+        when(refreshTokenRepository.findByUserId(userId)).thenReturn(null);
+        RefreshToken tokenFound = underTest.getByUser(userId);
+
+        // then
+        ArgumentCaptor<Long> userIdCaptor = ArgumentCaptor.forClass(Long.class);
+
+        verify(refreshTokenRepository).findByUserId(userIdCaptor.capture());
+
+        assertThat(userIdCaptor.getValue().longValue()).isEqualTo(userId.longValue());
+        assertThat(tokenFound).isNull();
     }
 
 }
