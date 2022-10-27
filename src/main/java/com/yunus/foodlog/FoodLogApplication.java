@@ -1,5 +1,6 @@
 package com.yunus.foodlog;
 
+import com.yunus.foodlog.utils.DataPopulator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

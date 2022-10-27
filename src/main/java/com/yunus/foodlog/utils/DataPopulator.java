@@ -1,4 +1,4 @@
-package com.yunus.foodlog;
+package com.yunus.foodlog.utils;
 
 import com.yunus.foodlog.entities.Like;
 import com.yunus.foodlog.entities.Post;
