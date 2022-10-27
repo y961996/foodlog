@@ -1,6 +1,5 @@
 package com.yunus.foodlog.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.yunus.foodlog.converters.ListToStringConverter;
 import lombok.Data;
 import org.hibernate.annotations.OnDelete;
