@@ -2,6 +2,7 @@ package com.yunus.foodlog.services;
 
 import com.yunus.foodlog.entities.Post;
 import com.yunus.foodlog.entities.User;
+import com.yunus.foodlog.exceptions.PostNotFoundException;
 import com.yunus.foodlog.repositories.PostRepository;
 import com.yunus.foodlog.requests.PostCreateRequest;
 import com.yunus.foodlog.requests.PostUpdateRequest;
@@ -51,6 +52,10 @@ public class PostService {
 
     public PostResponse getOnePostByIdWithLikes(Long postId) {
         Post post = postRepository.findById(postId).orElse(null);
+        if(post == null) {
+            log.info("Post with id: " + postId + " does not exist!");
+            throw new PostNotFoundException("Post with id: " + postId + " does not exist!");
+        }
         List<LikeResponse> likes = likeService.getAllLikes(Optional.empty(), Optional.of(postId));
         return new PostResponse(post, likes);
     }
@@ -98,6 +103,10 @@ public class PostService {
 
     public void deleteOnePostById(Long postId) {
         log.info("PostService -> deleteOnePostById() called with postId: " + postId);
+        if(!postRepository.existsById(postId)) {
+            log.info("Tried to delete post with id " + postId + ". Post does not exist!");
+            throw new PostNotFoundException("Tried to delete post with id " + postId + ". Post does not exist!");
+        }
         postRepository.deleteById(postId);
     }
 
